@@ -1,0 +1,117 @@
+@import 'trix/dist/trix.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+    font-family: 'Igra Sans';
+    src: url('/public/fonts/IgraSans.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+a:active, a:focus { outline: none; }
+
+input, textarea {outline:none;}
+input:active, textarea:active {outline:none;}
+:focus {outline:none;}
+textarea {resize:none;}
+textarea {resize:vertical;}
+textarea {resize:horizontal;}
+
+
+
+html {
+    font-family: 'Igra Sans', sans-serif;
+}
+
+.active{
+    color: white;
+}
+body{
+    background-color: #151517;
+}
+.linkloomlogo {
+    height: 4.1875rem;
+    width: 30.5625rem;
+}
+
+.animbtn {
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.animbtn:hover {
+    transform: scale(1.05);
+}
+
+.custom-blur::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    filter: blur(29px);
+    z-index: -1;
+}
+
+.relative-container {
+    position: relative;
+}
+
+.fira-sans-regular {
+    font-family: "Playwrite BE VLG", cursive;
+    font-optical-sizing: auto;
+    font-style: normal;
+}
+.custom-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: #FF003D rgba(0, 0, 0, 0.2);
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+    width: 20px;
+    height: 20px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-button {
+    width: 0;
+    height: 0;
+    opacity: 0;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 1000px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background: #FF003D;
+    border-radius: 1000px;
+}
+/* Стили для элемента blockquote */
+blockquote {
+    margin: 0;
+    padding: 0;
+    overflow-wrap: break-word;
+}
+
+/* Стили для элемента pre */
+pre {
+    white-space: pre-wrap;
+    overflow-wrap: break-word;
+    margin: 0;
+}
+footer {
+    background-color: rgba(31, 31, 33, 1);
+}
+.icon__bounce {
+    display: inline-block;
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+/* Анимация при наведении */
+.icon__bounce:hover {
+    transform: scale(1.1);
+    color: #fff; /* Можно изменить цвет иконки при наведении */
+}
