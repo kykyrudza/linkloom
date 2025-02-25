@@ -28,7 +28,7 @@
         <!-- User Profile or Login -->
         <div class="hidden xl:flex lg:flex-1 lg:justify-end">
             @auth
-                <a href="{{ route('profile', ['id' => $userId, 'nickname' => $nickname]) }}">
+                <a href="{{ route('profile', ['id' => Auth::id(), 'nickname' => Auth::user()->nickname]) }}">
                     <img src="{{ auth()->user()->avatar_url }}"
                          class="h-[60px] w-[60px] rounded-2xl object-cover overflow-hidden {{ Route::is('profile') ? 'border-red-600 border-2' : 'border-0' }}"
                          alt="avatar">
@@ -58,9 +58,11 @@
             <div class="mt-6 flow-root">
                 <div class="-my-6 divide-y divide-gray-500/10">
                     <div class="space-y-2 py-6">
-                        <a href="{{ route('profile', ['id' => $userId, 'nickname' => $nickname]) }}" class="-mx-3 block rounded-lg px-3 py-2 text-base font-light leading-7 text-slate-300 hover:bg-gray-50 hover:text-black {{ Route::is('profile') ? 'active' : '' }}">
-                            {{ __('Личный кабинет') }}
-                        </a>
+                        @auth
+                            <a href="{{ route('profile', ['id' => Auth::id(), 'nickname' => Auth::user()->nickname]) }}" class="-mx-3 block rounded-lg px-3 py-2 text-base font-light leading-7 text-slate-300 hover:bg-gray-50 hover:text-black {{ Route::is('profile') ? 'active' : '' }}">
+                                {{ __('Личный кабинет') }}
+                            </a>
+                        @endauth
                         <a href="{{ route('main') }}" class="-mx-3 block rounded-lg px-3 py-2 text-base font-light leading-7 text-slate-300 hover:bg-gray-50 hover:text-black {{ Route::is('main') ? 'active' : '' }}">
                             {{ __('Главная') }}
                         </a>
@@ -102,4 +104,3 @@
         </div>
     </div>
 </header>
-

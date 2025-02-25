@@ -22,7 +22,8 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('social_links', function (Blueprint $table) {
-            //
+            $table->dropForeign(['user_id']); // Удаление внешнего ключа
         });
+        Schema::dropIfExists('social_links'); // Удаление таблицы
     }
 };
