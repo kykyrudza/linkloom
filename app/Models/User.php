@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -29,14 +30,14 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    public function getAvatarUrlAttribute()
+    public function getAvatarUrlAttribute(): string
     {
         return $this->avatar
             ? asset('storage/avatar/' . $this->avatar)
             : asset('images/default_avatar.png');
     }
 
-    public function socialLinks()
+    public function socialLinks(): HasMany
     {
         return $this->hasMany(SocialLink::class);
     }
