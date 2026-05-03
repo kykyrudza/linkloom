@@ -1,0 +1,26 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(Get-ChildItem -Recurse -Directory)",
+      "Bash(Select-Object -ExpandProperty FullName)",
+      "Bash(Sort-Object)",
+      "Bash(cd /d \"D:\\\\kykyrudza-coding\\\\linkloom\")",
+      "Bash(dir /s /b)",
+      "Bash(find \"D:\\\\\\\\kykyrudza-coding\\\\\\\\linkloom\" -type d)",
+      "Bash(find \"D:\\\\\\\\kykyrudza-coding\\\\\\\\linkloom/resources\" -type f -not -path \"*/node_modules/*\")",
+      "Bash(find \"D:\\\\\\\\kykyrudza-coding\\\\\\\\linkloom/app\" -type f)",
+      "Bash(find \"D:\\\\\\\\kykyrudza-coding\\\\\\\\linkloom/routes\" -type f)",
+      "Bash(find \"D:\\\\\\\\kykyrudza-coding\\\\\\\\linkloom/database\" -type f)",
+      "Bash(find \"D:\\\\\\\\kykyrudza-coding\\\\\\\\linkloom\" -maxdepth 2 -type d)",
+      "Bash(find \"D:\\\\\\\\kykyrudza-coding\\\\\\\\linkloom/app\" -type f -name \"*.php\")",
+      "Bash(find \"D:\\\\\\\\kykyrudza-coding\\\\\\\\linkloom\" -maxdepth 1 -type f -name \"*.php\" -o -name \"*.json\" -o -name \"*.js\" -o -name \"*.lock\")",
+      "Bash(find \"D:\\\\\\\\kykyrudza-coding\\\\\\\\linkloom/config\" -type f)",
+      "Bash(find \"D:\\\\\\\\kykyrudza-coding\\\\\\\\linkloom/database/migrations\" -type f)",
+      "Bash(ls -la \"D:\\\\\\\\kykyrudza-coding\\\\\\\\linkloom\")",
+      "Bash(find \"D:\\\\\\\\kykyrudza-coding\\\\\\\\linkloom/public\" -type f)",
+      "Bash(find \"D:\\\\\\\\kykyrudza-coding\\\\\\\\linkloom\" -maxdepth 1 -type f)",
+      "Bash(grep -E \"\\\\.\\(php|js|json\\)$\")",
+      "Bash(find \"D:\\\\\\\\kykyrudza-coding\\\\\\\\linkloom\" -type f -not -path \"*/node_modules/*\" -not -path \"*/.git/*\" -not -path \"*/.idea/*\" -not -path \"*/vendor/*\" -not -path \"*/storage/*\" -not -path \"*/bootstrap/cache/*\")"
+    ]
+  }
+}

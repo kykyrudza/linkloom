@@ -2,16 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\View\View;
 
 class MainController extends Controller
 {
-    public function index()
+    public function index(): View|RedirectResponse
     {
-        $userId = Auth::id();
-        $nickname = Auth::check() ? Auth::user()->nickname : null;
+        if (! Auth::check()) {
+            return view('main.index');
+        }
 
-        return view('main.index', compact('userId', 'nickname'));
+        return redirect()->route('profile', [
+            'id' => Auth::id(),
+            'nickname' => Auth::user()->nickname,
+        ]);
     }
 }

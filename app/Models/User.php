@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Data\AuthUserData;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -26,19 +27,16 @@ class User extends Authenticatable
     ];
 
     protected $casts = [
-        'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
 
     public function getAvatarUrlAttribute(): string
     {
-        return $this->avatar
-            ? asset('storage/avatar/' . $this->avatar)
-            : asset('images/default_avatar.png');
+        return AuthUserData::avatarUrl($this->avatar);
     }
 
     public function socialLinks(): HasMany
     {
-        return $this->hasMany(SocialLink::class);
+        return $this->hasMany(SocialLink::class)->latest();
     }
 }

@@ -1,1 +1,6 @@
-<h2 class="text-white  text-center text-4xl md:text-5xl mb-10 md:mb-20">{{ $title }}</h2>
+<div class="mb-8">
+    <h2 class="text-white text-3xl mb-2">{{ $title }}</h2>
+    @if(isset($subtitle))
+        <p class="text-gray-500 text-sm">{{ $subtitle }}</p>
+    @endif
+</div>

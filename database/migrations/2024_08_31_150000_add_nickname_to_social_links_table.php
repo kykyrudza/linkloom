@@ -9,7 +9,7 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up()
+    public function up(): void
     {
         Schema::table('social_links', function (Blueprint $table) {
             $table->string('nickname')->nullable()->after('url');
@@ -22,8 +22,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('social_links', function (Blueprint $table) {
-            $table->dropForeign(['user_id']); // Удаление внешнего ключа
+            $table->dropColumn('nickname');
         });
-        Schema::dropIfExists('social_links'); // Удаление таблицы
     }
 };

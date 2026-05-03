@@ -2,40 +2,32 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Auth\RegisterRequest;
 use App\Models\User;
-use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\View\View;
 
 class RegisterController extends Controller
 {
-
-    public function index()
+    public function index(): View
     {
         return view('auth.register.index');
     }
 
-    public function store(Request $request)
+    public function store(RegisterRequest $request): RedirectResponse
     {
-
-        $request->validate([
-            'nickname' => 'required|string|unique:users|regex:/^[a-zA-Z0-9]+$/|max:32',
-            'first_name' => 'required|string|max:32',
-            'last_name' => 'required|string|max:32',
-            'email' => 'email|required|unique:users',
-            'password' => 'required|string|min:8|confirmed',
-        ]);
-
-        $user = User::create([
-            'nickname' => $request->nickname,
-            'first_name' => $request->first_name,
-            'last_name' => $request->last_name,
-            'email' => $request->email,
-            'password' => $request->password,
-        ]);
+        $user = User::create($request->safe()->only([
+            'nickname',
+            'first_name',
+            'last_name',
+            'email',
+            'password',
+        ]));
 
         Auth::login($user);
+        $request->session()->regenerate();
 
-        return redirect('/');
+        return redirect()->route('main');
     }
-
 }

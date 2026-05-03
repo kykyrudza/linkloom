@@ -1,71 +1,36 @@
 @extends('layouts.AuthLayout')
 
-@section('title')
-    Register
-@endsection
+@section('title', 'Create Account')
 
 @section('auth_content')
-    <x-auth.form-container class="md:h-[690px] md:w-[910px] md:my-0 my-10 h-[846px] w-[327px]">
-        <x-auth.form-header title='Register' />
-        <form method="POST" action="{{ route('register.store')  }}" class="mx-auto w-full max-w-5xl">
-            @csrf
-            <div class=" md:grid md:grid-cols-2 gap-7">
-                <div>
-                    <x-auth.form-input
-                        type="text"
-                        name="nickname"
-                        placeholder="{{ __('Your nickname') }}"
-                        label="{{ __('Nickname') }}"
-                        autofocus
-                    >
-                    </x-auth.form-input>
+    <div class="mb-8">
+        <h1 class="text-gray-900 text-3xl mb-2">Create account</h1>
+        <p class="text-gray-400 text-sm">Join thousands of creators on LinkLoom</p>
+    </div>
 
-                    <x-auth.form-input
-                        type="text"
-                        name="first_name"
-                        placeholder="{{ __('John') }}"
-                        label="{{ __('First Name') }}"
-                    >
-                    </x-auth.form-input>
+    @if ($errors->any())
+        <div class="mb-6 p-4 rounded-xl bg-red-50 border border-red-100">
+            <p class="text-red-600 text-sm">{{ $errors->first() }}</p>
+        </div>
+    @endif
 
-                    <x-auth.form-input
-                        type="text"
-                        name="last_name"
-                        placeholder="{{ __('Doe') }}"
-                        label="{{ __('Last Name') }}"
-                    >
-                    </x-auth.form-input>
-                </div>
-                <div>
-                    <x-auth.form-input
-                        type="email"
-                        name="email"
-                        placeholder="{{ __('john@example.com') }}"
-                        label="{{ __('Email') }}"
-                    >
-                    </x-auth.form-input>
+    <form method="POST" action="{{ route('register.store') }}">
+        @csrf
+        <div class="grid sm:grid-cols-2 gap-x-5">
+            <x-auth.form-input type="text" name="nickname" placeholder="your_nickname" label="Nickname" autofocus />
+            <x-auth.form-input type="email" name="email" placeholder="you@example.com" label="Email" />
+            <x-auth.form-input type="text" name="first_name" placeholder="John" label="First Name" />
+            <x-auth.form-input type="text" name="last_name" placeholder="Doe" label="Last Name" />
+            <x-auth.form-input type="password" name="password" placeholder="Min. 8 characters" label="Password" />
+            <x-auth.form-input type="password" name="password_confirmation" placeholder="Repeat password" label="Confirm Password" />
+        </div>
+        <x-auth.form-button>Create Account</x-auth.form-button>
+    </form>
 
-                    <x-auth.form-input
-                        type="password"
-                        name="password"
-                        placeholder="{{ __('Minimum 8 characters') }}"
-                        label="{{ __('Password') }}"
-                    >
-                    </x-auth.form-input>
-
-                    <x-auth.form-input
-                        type="password"
-                        name="password_confirmation"
-                        placeholder="{{ __('Minimum 8 characters') }}"
-                        label="{{ __('Confirm Password') }}"
-                    >
-                    </x-auth.form-input>
-                </div>
-            </div>
-            <div class="mt-4 text-center">
-                <x-auth.register-link url="{{ route('login') }}">{{ __('Already have account?') }}</x-auth.register-link>
-                <x-auth.form-button>{{ __('Sign up') }}</x-auth.form-button>
-            </div>
-        </form>
-    </x-auth.form-container>
+    <p class="text-center text-sm text-gray-400 mt-6">
+        Already have an account?
+        <a href="{{ route('login') }}" class="text-red-600 hover:text-red-700 transition-colors hover:underline underline-offset-2">
+            Sign in
+        </a>
+    </p>
 @endsection

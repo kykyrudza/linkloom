@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\Facades\App;
+use App\Data\AuthUserData;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -18,9 +20,12 @@ class AppServiceProvider extends ServiceProvider
     /**
      * Bootstrap any application services.
      */
-    public function boot()
+    public function boot(): void
     {
-        $locale = session()->get('locale', config('app.locale'));
-        app()->setLocale($locale);
+        View::composer('*', function ($view): void {
+            $user = Auth::user();
+
+            $view->with('currentUser', $user ? AuthUserData::fromModel($user) : null);
+        });
     }
 }

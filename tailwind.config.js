@@ -44,13 +44,13 @@ export default {
 
             addComponents({
                 '.custom-bg': {
-                    '@apply bg-white bg-opacity-10 backdrop-blur whitespace-normal break-words': {},
+                    '@apply bg-white whitespace-normal break-words': {},
                 },
                 '.custom-border': {
-                    '@apply border border-white border-opacity-10': {},
+                    '@apply border border-gray-200': {},
                 },
                 '.custom-shadow': {
-                    '@apply shadow-custom-combined': {},
+                    '@apply shadow-sm': {},
                 },
                 '.custom-box': {
                     '@apply custom-bg custom-border custom-shadow': {},

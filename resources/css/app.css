@@ -6,112 +6,279 @@
 
 @font-face {
     font-family: 'Igra Sans';
-    src: url('/public/fonts/IgraSans.otf') format('opentype');
+    src: url('/fonts/IgraSans.otf') format('opentype');
     font-weight: normal;
     font-style: normal;
 }
+
 a:active, a:focus { outline: none; }
-
-input, textarea {outline:none;}
-input:active, textarea:active {outline:none;}
-:focus {outline:none;}
-textarea {resize:none;}
-textarea {resize:vertical;}
-textarea {resize:horizontal;}
-
-
+input, textarea { outline: none; }
+:focus { outline: none; }
+textarea { resize: vertical; }
 
 html {
     font-family: 'Igra Sans', sans-serif;
+    scroll-behavior: smooth;
 }
 
-.active{
-    color: white;
-}
-body{
-    background-color: #151517;
-}
-.linkloomlogo {
-    height: 4.1875rem;
-    width: 30.5625rem;
+body {
+    background-color: #f5f5f7;
+    color: #111827;
 }
 
-.animbtn {
-    transition: background-color 0.3s ease, transform 0.3s ease;
+/* ─── Navigation ─── */
+.sticky-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    background: rgba(245, 245, 247, 0.92);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
 }
 
-.animbtn:hover {
-    transform: scale(1.05);
+.nav-link {
+    position: relative;
+    transition: color 0.2s ease;
 }
 
-.custom-blur::before {
+.nav-link.active::after {
     content: '';
     position: absolute;
-    top: 0;
+    bottom: -6px;
     left: 0;
     right: 0;
-    bottom: 0;
-    filter: blur(29px);
-    z-index: -1;
+    height: 2px;
+    background: #dc2626;
+    border-radius: 1px;
 }
 
-.relative-container {
-    position: relative;
+/* ─── Buttons ─── */
+.btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #dc2626;
+    color: white;
+    border-radius: 9999px;
+    padding: 0.625rem 1.75rem;
+    font-size: 0.875rem;
+    font-weight: 400;
+    letter-spacing: 0.025em;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 14px rgba(220, 38, 38, 0.3);
 }
 
-.fira-sans-regular {
-    font-family: "Playwrite BE VLG", cursive;
-    font-optical-sizing: auto;
-    font-style: normal;
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(220, 38, 38, 0.4);
+    background: #b91c1c;
 }
+
+.btn-outline {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    color: #374151;
+    border-radius: 9999px;
+    padding: 0.625rem 1.75rem;
+    font-size: 0.875rem;
+    font-weight: 400;
+    letter-spacing: 0.025em;
+    background: white;
+    transition: all 0.3s ease;
+}
+
+.btn-outline:hover {
+    transform: translateY(-2px);
+    background: #f9fafb;
+    border-color: rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* ─── Gradient text ─── */
+.gradient-text {
+    background: linear-gradient(135deg, #111827 0%, #dc2626 60%, #991b1b 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* ─── Glow ─── */
+.red-glow {
+    box-shadow: 0 0 40px rgba(220, 38, 38, 0.12);
+}
+
+.red-glow-sm {
+    box-shadow: 0 0 20px rgba(220, 38, 38, 0.1);
+}
+
+/* ─── Scrollbar ─── */
 .custom-scrollbar {
     scrollbar-width: thin;
-    scrollbar-color: #FF003D rgba(0, 0, 0, 0.2);
+    scrollbar-color: #dc2626 rgba(0, 0, 0, 0.06);
 }
 
 .custom-scrollbar::-webkit-scrollbar {
-    width: 20px;
-    height: 20px;
-}
-
-.custom-scrollbar::-webkit-scrollbar-button {
-    width: 0;
-    height: 0;
-    opacity: 0;
+    width: 4px;
+    height: 4px;
 }
 
 .custom-scrollbar::-webkit-scrollbar-track {
-    background: rgba(0, 0, 0, 0.2);
-    border-radius: 1000px;
+    background: rgba(0, 0, 0, 0.04);
+    border-radius: 100px;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
-    background: #FF003D;
-    border-radius: 1000px;
+    background: #dc2626;
+    border-radius: 100px;
 }
-/* Стили для элемента blockquote */
+
+/* ─── Footer ─── */
+footer {
+    background-color: #ececf0;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+/* ─── Icon hover ─── */
+.icon__bounce {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.icon__bounce:hover {
+    transform: scale(1.15) translateY(-2px);
+}
+
+/* ─── Trix editor ─── */
+trix-editor {
+    min-height: 100px;
+    color: #111827;
+    background: transparent;
+    border: none;
+}
+
+trix-toolbar {
+    background: rgba(0, 0, 0, 0.02);
+    border-color: rgba(0, 0, 0, 0.08);
+}
+
+trix-toolbar .trix-button {
+    background: transparent;
+    color: #6b7280;
+    border: none;
+}
+
+trix-toolbar .trix-button:hover {
+    background: rgba(0, 0, 0, 0.05);
+    color: #111827;
+}
+
+/* ─── Text formatting ─── */
 blockquote {
     margin: 0;
-    padding: 0;
+    padding: 4px 0 4px 16px;
+    border-left: 3px solid #dc2626;
     overflow-wrap: break-word;
 }
 
-/* Стили для элемента pre */
 pre {
     white-space: pre-wrap;
     overflow-wrap: break-word;
     margin: 0;
-}
-footer {
-    background-color: rgba(31, 31, 33, 1);
-}
-.icon__bounce {
-    display: inline-block;
-    transition: transform 0.3s ease, color 0.3s ease;
+    background: rgba(0, 0, 0, 0.04);
+    padding: 12px 16px;
+    border-radius: 8px;
 }
 
-/* Анимация при наведении */
-.icon__bounce:hover {
-    transform: scale(1.1);
-    color: #fff; /* Можно изменить цвет иконки при наведении */
+/* ─── Animations ─── */
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-12px); }
+}
+
+.float-anim {
+    animation: float 4s ease-in-out infinite;
+}
+
+@keyframes pulse-glow {
+    0%, 100% { box-shadow: 0 4px 14px rgba(220, 38, 38, 0.25); }
+    50% { box-shadow: 0 8px 28px rgba(220, 38, 38, 0.45); }
+}
+
+.pulse-glow {
+    animation: pulse-glow 2.5s ease-in-out infinite;
+}
+
+@keyframes fade-in-up {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in-up { animation: fade-in-up 0.6s ease forwards; }
+.fade-in-up-delay-1 { animation-delay: 0.1s; opacity: 0; }
+.fade-in-up-delay-2 { animation-delay: 0.2s; opacity: 0; }
+.fade-in-up-delay-3 { animation-delay: 0.3s; opacity: 0; }
+.fade-in-up-delay-4 { animation-delay: 0.4s; opacity: 0; }
+
+/* ─── Form inputs ─── */
+.form-input-dark {
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    color: #111827;
+    border-radius: 0.75rem;
+    padding: 0.75rem 1rem;
+    width: 100%;
+    transition: all 0.2s ease;
+}
+
+.form-input-dark::placeholder {
+    color: #9ca3af;
+}
+
+.form-input-dark:focus {
+    background: white;
+    border-color: rgba(220, 38, 38, 0.4);
+    box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.06);
+}
+
+/* ─── Section divider ─── */
+.section-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(0,0,0,0.07), transparent);
+}
+
+/* ─── Card hover ─── */
+.card-hover {
+    transition: all 0.3s ease;
+}
+
+.card-hover:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.10), 0 0 20px rgba(220, 38, 38, 0.04);
+}
+
+/* ─── Chip / badge ─── */
+.chip {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.25rem 0.875rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+    background: rgba(220, 38, 38, 0.08);
+    border: 1px solid rgba(220, 38, 38, 0.18);
+    color: #dc2626;
+}
+
+/* ─── Active state ─── */
+.active { color: #111827; }
+
+/* ─── Dot pattern (light) ─── */
+.dot-bg {
+    background-image: radial-gradient(rgba(0, 0, 0, 0.05) 1px, transparent 1px);
+    background-size: 28px 28px;
 }

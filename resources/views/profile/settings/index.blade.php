@@ -1,109 +1,182 @@
 @extends('layouts.layout')
 
-@section('title')
-    {{ $nickname }} - Settings
-@endsection
-
-
-@push('css')
-    <link rel="stylesheet" href="{{ mix('css/app.css') }}">
-@endpush
-
-@push('js')
-    <script src="{{ mix('js/app.js') }}"></script>
-@endpush
+@section('title', 'Settings')
 
 @section('content')
-    <div class="text-white w-full lg:flex gap-3 mx-auto max-w-screen-2xl">
-        <form action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data" class="custom-box p-7 w-full my-5 rounded-3xl max-w-xl">
+<div class="px-4 sm:px-6 py-8 mx-auto max-w-screen-xl" x-data="{ activeTab: 'profile' }">
+
+    <div class="mb-8 flex items-center gap-4">
+        <a href="{{ route('profile', $profile->user->profileRouteParameters()) }}"
+           class="w-9 h-9 custom-box rounded-xl flex items-center justify-center text-gray-400 hover:text-gray-700 transition-colors">
+            <i class="fas fa-arrow-left text-sm"></i>
+        </a>
+        <div>
+            <h1 class="text-gray-900 text-2xl">Settings</h1>
+            <p class="text-gray-400 text-sm">Manage your profile and account</p>
+        </div>
+    </div>
+
+    <div class="flex gap-1 p-1 custom-box rounded-2xl w-fit mb-8 shadow-sm">
+        <button @click="activeTab = 'profile'"
+                :class="activeTab === 'profile' ? 'bg-red-600 text-white shadow-sm' : 'text-gray-500 hover:text-gray-900'"
+                class="px-5 py-2 rounded-xl text-sm transition-all">
+            Profile
+        </button>
+        <button @click="activeTab = 'social'"
+                :class="activeTab === 'social' ? 'bg-red-600 text-white shadow-sm' : 'text-gray-500 hover:text-gray-900'"
+                class="px-5 py-2 rounded-xl text-sm transition-all">
+            Social Links
+        </button>
+        <button @click="activeTab = 'security'"
+                :class="activeTab === 'security' ? 'bg-red-600 text-white shadow-sm' : 'text-gray-500 hover:text-gray-900'"
+                class="px-5 py-2 rounded-xl text-sm transition-all">
+            Security
+        </button>
+    </div>
+
+    <div x-show="activeTab === 'profile'" x-transition>
+        <form action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data">
             @csrf
-            <!-- Avatar Upload -->
-            <div class="custom-box px-5 py-2 rounded-3xl mb-10 w-full">
-                <label for="avatar" class="w-2/4">Upload Avatar</label>
-                <input type="file" name="avatar" id="avatar">
+            <div class="grid lg:grid-cols-2 gap-5">
+
+                <div class="custom-box rounded-3xl p-6">
+                    <p class="text-gray-700 text-sm font-medium mb-4">Profile Photo</p>
+                    <div class="flex items-center gap-5">
+                        <div class="w-20 h-20 rounded-2xl flex-shrink-0 bg-gray-100 overflow-hidden"
+                             style="background-image: url('{{ $profile->user->avatarUrl }}'); background-size: cover; background-position: center;">
+                        </div>
+                        <div>
+                            <label for="avatar"
+                                   class="btn-outline text-xs px-4 py-2 cursor-pointer rounded-full">
+                                <i class="fas fa-upload mr-1.5 text-xs"></i>
+                                Upload photo
+                            </label>
+                            <input type="file" name="avatar" id="avatar" class="hidden" accept="image/*">
+                            <p class="text-gray-400 text-xs mt-2">JPG, PNG or GIF. Max 2MB.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="custom-box rounded-3xl p-6 space-y-4">
+                    <p class="text-gray-700 text-sm font-medium mb-2">Account Details</p>
+                    <div>
+                        <label for="nickname" class="block text-xs text-gray-400 mb-1.5">Nickname</label>
+                        <input type="text" name="nickname" id="nickname"
+                               value="{{ old('nickname', $profile->user->nickname) }}"
+                               class="form-input-dark text-sm">
+                        @error('nickname') <p class="mt-1 text-xs text-red-500">{{ $message }}</p> @enderror
+                    </div>
+                    <div>
+                        <label for="email" class="block text-xs text-gray-400 mb-1.5">Email</label>
+                        <input type="email" name="email" id="email"
+                               value="{{ old('email', $profile->user->email) }}"
+                               class="form-input-dark text-sm">
+                        @error('email') <p class="mt-1 text-xs text-red-500">{{ $message }}</p> @enderror
+                    </div>
+                </div>
+
+                <div class="custom-box rounded-3xl p-6 space-y-4">
+                    <p class="text-gray-700 text-sm font-medium mb-2">Full Name</p>
+                    <div>
+                        <label for="first_name" class="block text-xs text-gray-400 mb-1.5">First Name</label>
+                        <input type="text" name="first_name" id="first_name"
+                               value="{{ old('first_name', $profile->user->firstName) }}"
+                               class="form-input-dark text-sm">
+                        @error('first_name') <p class="mt-1 text-xs text-red-500">{{ $message }}</p> @enderror
+                    </div>
+                    <div>
+                        <label for="last_name" class="block text-xs text-gray-400 mb-1.5">Last Name</label>
+                        <input type="text" name="last_name" id="last_name"
+                               value="{{ old('last_name', $profile->user->lastName) }}"
+                               class="form-input-dark text-sm">
+                        @error('last_name') <p class="mt-1 text-xs text-red-500">{{ $message }}</p> @enderror
+                    </div>
+                </div>
+
+                <div class="custom-box rounded-3xl p-6">
+                    <p class="text-gray-700 text-sm font-medium mb-4">Bio / Description</p>
+                    <div class="bg-gray-50 border border-gray-200 rounded-xl overflow-hidden">
+                        <input id="description" type="hidden" name="description"
+                               value="{{ old('description', $profile->user->description) }}">
+                        <trix-editor input="description"></trix-editor>
+                    </div>
+                    @error('description') <p class="mt-1 text-xs text-red-500">{{ $message }}</p> @enderror
+                </div>
+
             </div>
 
-            <!-- Nickname -->
-            <div class="mb-4 w-full">
-                <label for="nickname" class="w-2/4">Nickname</label>
-                <input type="text" name="nickname" id="nickname" value="{{ old('nickname', $nickname) }}" class=" w-2/4 custom-box px-5 py-2 rounded-3xl">
-                @error('nickname') <span class="text-red-500">{{ $message }}</span> @enderror
+            <div class="mt-5 flex justify-end">
+                <button type="submit" class="btn-primary text-sm px-8 py-3">
+                    Save Changes
+                </button>
             </div>
-
-            <!-- First Name -->
-            <div class="mb-4 w-full">
-                <label for="first_name" class="w-2/4">First Name</label>
-                <input type="text" name="first_name" id="first_name" value="{{ old('first_name', $firstName) }}" class="w-2/4 custom-box px-5 py-2 rounded-3xl">
-                @error('first_name') <span class="text-red-500">{{ $message }}</span> @enderror
-            </div>
-
-            <!-- Last Name -->
-            <div class="mb-4 w-full">
-                <label for="last_name" class="w-2/4">Last Name</label>
-                <input type="text" name="last_name" id="last_name" value="{{ old('last_name', $lastName) }}" class="w-2/4 custom-box px-5 py-2 rounded-3xl">
-                @error('last_name') <span class="text-red-500">{{ $message }}</span> @enderror
-            </div>
-
-            <!-- Description -->
-            <div class="mb-4 w-full">
-                <label for="description">Description</label>
-                <input id="description" type="hidden" name="description" value="{{ old('description', $description) }}">
-                <trix-editor input="description" class="custom-box px-5 py-2 rounded-3xl"></trix-editor>
-                @error('description') <span class="text-red-500">{{ $message }}</span> @enderror
-            </div>
-
-                    <!-- Email --><div class="mb-4 w-full">
-                <label for="email" class="w-2/4">Email</label>
-                <input type="email" name="email" id="email" value="{{ old('email', $email) }}" class="custom-box w-2/4  px-5 py-2 rounded-3xl">
-                @error('email') <span class="text-red-500">{{ $message }}</span> @enderror
-            </div>
-            <button type="submit" class="custom-box px-5 py-2 rounded-3xl">Update</button>
         </form>
-        <div class="custom-box rounded-3xl p-7 w-full my-5 max-w-xl">
-            <form action="{{ route('social-links.store') }}" method="POST">
-                @csrf
-                <div class="mb-4">
-                    <label for="platform" class="block text-white">Social Network</label>
-                    <select id="platform" name="platform" class="custom-box px-5 py-2 rounded-3xl w-full" required>
-                        <option class="text-black" value="facebook">Facebook</option>
-                        <option class="text-black" value="twitter">Twitter</option>
-                        <option class="text-black" value="linkedin">LinkedIn</option>
-                        <option class="text-black" value="instagram">Instagram</option>
-                        <option class="text-black" value="youtube">YouTube</option>
-                        <option class="text-black" value="github">GitHub</option>
-                        <option class="text-black" value="pinterest">Pinterest</option>
-                        <option class="text-black" value="snapchat">Snapchat</option>
-                        <option class="text-black" value="telegram">Telegram</option>
-                        <option class="text-black" value="reddit">Reddit</option>
-                        <option class="text-black" value="tiktok">TikTok</option>
-                        <option class="text-black" value="whatsapp">WhatsApp</option>
-                        <option class="text-black" value="vimeo">Vimeo</option>
-                        <option class="text-black" value="flickr">Flickr</option>
-                    </select>
-                </div>
-                <div class="mb-4">
-                    <label for="url" class="block text-white">URL</label>
-                    <input type="url" id="url" name="url" class="custom-box px-5 py-2 rounded-3xl w-full" required>
-                </div>
-                <button type="submit" class="custom-box px-5 py-2 rounded-3xl">Update</button>
-            </form>
+    </div>
 
-            <div class="mt-8">
-                <h2 class="text-lg text-white">Your Social Links</h2>
-                @if($socialLinks->isEmpty())
-                    <p class="text-white opacity-50">No social links added yet.</p>
+    <div x-show="activeTab === 'social'" x-transition>
+        <div class="grid lg:grid-cols-2 gap-5">
+
+            <div class="custom-box rounded-3xl p-6">
+                <p class="text-gray-700 text-sm font-medium mb-5">Add Social Link</p>
+                <form action="{{ route('social-links.store') }}" method="POST" class="space-y-4">
+                    @csrf
+                    <div>
+                        <label for="platform" class="block text-xs text-gray-400 mb-1.5">Platform</label>
+                        <select id="platform" name="platform" class="form-input-dark text-sm" required>
+                            @foreach($socialPlatforms as $platform => $details)
+                                <option value="{{ $platform }}" @selected(old('platform') === $platform)>
+                                    {{ $details['label'] ?? ucfirst($platform) }}
+                                </option>
+                            @endforeach
+                        </select>
+                        @error('platform') <p class="mt-1 text-xs text-red-500">{{ $message }}</p> @enderror
+                    </div>
+                    <div>
+                        <label for="url" class="block text-xs text-gray-400 mb-1.5">URL</label>
+                        <input type="url" id="url" name="url"
+                               value="{{ old('url') }}"
+                               placeholder="https://..."
+                               class="form-input-dark text-sm" required>
+                        @error('url') <p class="mt-1 text-xs text-red-500">{{ $message }}</p> @enderror
+                    </div>
+                    <button type="submit" class="btn-primary text-sm w-full py-3">
+                        Add Link
+                    </button>
+                </form>
+            </div>
+
+            <div class="custom-box rounded-3xl p-6">
+                <p class="text-gray-700 text-sm font-medium mb-5">Your Social Links</p>
+                @if($profile->socialLinks->isEmpty())
+                    <div class="flex flex-col items-center justify-center py-12 text-center">
+                        <div class="w-12 h-12 rounded-2xl bg-gray-50 border border-gray-100 flex items-center justify-center mb-3">
+                            <i class="fas fa-link text-gray-300 text-lg"></i>
+                        </div>
+                        <p class="text-gray-400 text-sm">No social links added yet.</p>
+                    </div>
                 @else
-                    <ul class="mt-4">
-                        @foreach($socialLinks as $link)
-                            <li class="mb-2 flex items-center justify-between border-y py-3">
-                                <a href="{{ $link->url }}" class="text-white hover:text-opacity-50" target="_blank">
-                                    {{ ucfirst($link->platform) }}
-                                </a>
+                    <ul class="space-y-2">
+                        @foreach($profile->socialLinks as $link)
+                            <li class="flex items-center justify-between p-3 bg-gray-50 border border-gray-100 rounded-xl">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-8 h-8 rounded-full bg-red-50 border border-red-100 flex items-center justify-center">
+                                        <i class="fab fa-{{ $link->icon }} text-red-500 text-sm"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-gray-700 text-sm">{{ $link->label }}</p>
+                                        <a href="{{ $link->url }}" target="_blank"
+                                           class="text-gray-400 text-xs hover:text-red-500 transition-colors truncate max-w-[180px] block">
+                                            {{ $link->url }}
+                                        </a>
+                                    </div>
+                                </div>
                                 <form action="{{ route('social-links.destroy', $link->id) }}" method="POST">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="text-red-600 hover:text-opacity-50" onclick="return confirm('Are you sure you want to delete this social link?')">
-                                        Delete
+                                    <button type="submit"
+                                            class="w-8 h-8 rounded-full flex items-center justify-center text-gray-300 hover:text-red-500 hover:bg-red-50 transition-all text-xs"
+                                            onclick="return confirm('Delete this link?')">
+                                        <i class="fas fa-trash"></i>
                                     </button>
                                 </form>
                             </li>
@@ -111,24 +184,35 @@
                     </ul>
                 @endif
             </div>
-
         </div>
-        <form action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data" class="custom-box p-7 my-5 w-full rounded-3xl max-w-xl">
-            <!-- Password -->
-            @csrf
-            <div class="mb-4">
-                <label for="password">New Password</label>
-                <input type="password" name="password" id="password" class="custom-box px-5 py-2 rounded-3xl">
-                @error('password') <span class="text-red-500">{{ $message }}</span> @enderror
-            </div>
+    </div>
 
-            <!-- Confirm Password -->
-            <div class="mb-4">
-                <label for="password_confirmation">Confirm New Password</label>
-                <input type="password" name="password_confirmation" id="password_confirmation" class="custom-box px-5 py-2 rounded-3xl">
-                @error('password_confirmation') <span class="text-red-500">{{ $message }}</span> @enderror
-            </div>
-            <button type="submit" class="custom-box px-5 py-2 rounded-3xl">Update Password</button>
-        </form>
+    <div x-show="activeTab === 'security'" x-transition>
+        <div class="max-w-md">
+            <form action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                <div class="custom-box rounded-3xl p-6 space-y-4">
+                    <p class="text-gray-700 text-sm font-medium mb-2">Change Password</p>
+                    <div>
+                        <label for="password" class="block text-xs text-gray-400 mb-1.5">New Password</label>
+                        <input type="password" name="password" id="password"
+                               placeholder="Min. 8 characters"
+                               class="form-input-dark text-sm">
+                        @error('password') <p class="mt-1 text-xs text-red-500">{{ $message }}</p> @enderror
+                    </div>
+                    <div>
+                        <label for="password_confirmation" class="block text-xs text-gray-400 mb-1.5">Confirm New Password</label>
+                        <input type="password" name="password_confirmation" id="password_confirmation"
+                               placeholder="Repeat password"
+                               class="form-input-dark text-sm">
+                    </div>
+                    <button type="submit" class="btn-primary text-sm w-full py-3 mt-2">
+                        Update Password
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
 
+</div>
 @endsection
